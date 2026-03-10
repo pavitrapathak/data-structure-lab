@@ -14,25 +14,24 @@ struct Node* head = NULL;
 // Function to display the list
 void display() {
    
-  if (head == NULL) {
+   if (head == NULL) {
         printf("List is empty\n");
         return;
     }
 
     struct Node* temp = head;
     while (temp != NULL) {
-        printf("%d", temp->data);
-        if (temp->next != NULL)
-            printf(" ");
+        printf("%d ", temp->data);
         temp = temp->next;
     }
     printf("\n");
+   // write your code here..
 
 }
 
 // Function to insert a number at the end
 void insert(int num) {
-     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+      struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = num;
     newNode->next = NULL;
     newNode->prev = NULL;
@@ -49,13 +48,14 @@ void insert(int num) {
     }
 
     printf("Inserted successfully\n");
+    
 
     
 }
 
 // Function to delete a specific number
 void deleteNumber(int num) {
-   if (head == NULL) {
+    if (head == NULL) {
         printf("List is empty\n");
         return;
     }
@@ -70,18 +70,24 @@ void deleteNumber(int num) {
         return;
     }
 
-    if (temp->prev == NULL)
+    if (temp == head)
         head = temp->next;
-    else
-        temp->prev->next = temp->next;
 
     if (temp->next != NULL)
         temp->next->prev = temp->prev;
 
+    if (temp->prev != NULL)
+        temp->prev->next = temp->next;
+
     free(temp);
 
     printf("List after deletion: ");
-    display();
+    struct Node* cur = head;
+    while (cur != NULL) {
+        printf("%d ", cur->data);
+        cur = cur->next;
+    }
+    printf("\n");
 
   
     
@@ -90,13 +96,13 @@ void deleteNumber(int num) {
 
 // Function to reverse the list
 void reverseList() {
-	if (head == NULL) {
+	  if (head == NULL) {
         printf("List is empty\n");
         return;
     }
 
-    struct Node* current = head;
     struct Node* temp = NULL;
+    struct Node* current = head;
 
     while (current != NULL) {
         temp = current->prev;
@@ -110,14 +116,12 @@ void reverseList() {
 
     display();
 
-
 }
 
 // Function to concatenate another list
 void concatenate() {
 	
-    int n, x;
-
+     int n;
     scanf("%d", &n);
 
     if (n == 0) {
@@ -125,7 +129,8 @@ void concatenate() {
         return;
     }
 
-    struct Node* second = NULL;
+    int x;
+    struct Node* secondHead = NULL;
     struct Node* tail = NULL;
 
     for (int i = 0; i < n; i++) {
@@ -136,8 +141,8 @@ void concatenate() {
         newNode->next = NULL;
         newNode->prev = NULL;
 
-        if (second == NULL) {
-            second = newNode;
+        if (secondHead == NULL) {
+            secondHead = newNode;
             tail = newNode;
         } else {
             tail->next = newNode;
@@ -147,18 +152,17 @@ void concatenate() {
     }
 
     if (head == NULL) {
-        head = second;
+        head = secondHead;
     } else {
         struct Node* temp = head;
         while (temp->next != NULL)
             temp = temp->next;
 
-        temp->next = second;
-        second->prev = temp;
+        temp->next = secondHead;
+        secondHead->prev = temp;
     }
 
     display();
-
 }
 
 int main() {
